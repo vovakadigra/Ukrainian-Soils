@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Soil Map of Ukraine</title>
+    <link rel="icon" type="image/png" href="img/logo1.png">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            background-image: url("img/background.png");
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            background-color: rgba(51, 51, 51, 0.7);
+            color: #fff;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        header .logo {
+            margin: 0 50px;
+        }
+
+        header .logo img {
+            height: 60px;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        header ul li {
+            margin-right: 20px;
+        }
+
+        header ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        header ul li a:hover {
+            color: #ff9900;
+        }
+
+        #map {
+            flex: 1;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+
+        footer {
+            width: 100%;
+            background-color: rgba(51, 51, 51, 0.7);
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        footer p {
+            margin: 0;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .footer-links a:hover {
+            color: #ff9900;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 20px;
+            border: 2px solid #333; /* Border */
+            background-color: rgba(255, 255, 255, 0.7);
+            height: 680px; /* Set a fixed height for the container */
+            overflow-y: auto; /* Add scrollbar for content overflow */
+        }
+
+        h2 {
+            font-size: 28px;
+            margin: 15px 0;
+        }
+
+        ul {
+            list-style: disc;
+            margin-left: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        li{
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/home"><img class="logo" src="img/logo2.png" alt="Logo"></a>
+            </div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="soil map.html">Soil Map</a></li>
+                <li><a href="soil types.html">Soil Types</a></li>
+                <li><a href="#research">Research</a></li>
+                <li><a href="#conservation">Conservation</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Privacy Policy Content -->
+    <section id="privacy-policy">
+        <section id="privacy-policy">
+            <div class="container">
+                <h2>Privacy Policy</h2>
+                <p><strong>Introduction</strong><br>
+                Welcome to the Privacy Policy of TerraUkraine. We are dedicated to safeguarding your privacy and ensuring the security of your personal information. This Privacy Policy outlines the specific details of how we collect, utilize, and protect your data while you engage with our website.</p>
+    
+                <h2>Information We Collect</h2>
+                <h3>1. Personal Information</h3>
+                <p>We may collect a variety of personal information, including but not limited to:</p>
+                <ul>
+                    <li>Name: We may collect your name to personalize your experience.</li>
+                    <li>Contact Information: This includes your email address, phone number, and mailing address.</li>
+                    <li>Login Credentials: Information like usernames and passwords for registered users.</li>
+                </ul>
+    
+                <h3>2. Usage Data</h3>
+                <p>We may gather data regarding your interactions with our website, including:</p>
+                <ul>
+                    <li>Log Information: Such as your IP address, browser type, and device information.</li>
+                    <li>Usage Patterns: Information on how you navigate and utilize our website, such as pages visited and actions taken.</li>
+                </ul>
+    
+                <h3>3. Cookies and Tracking Technologies</h3>
+                <p>We use cookies and other tracking technologies to collect information about your browsing behavior, which may include:</p>
+                <ul>
+                    <li>Session Cookies: Temporary cookies for session management.</li>
+                    <li>Persistent Cookies: Cookies that are stored for an extended period.</li>
+                    <li>Analytical Tools: Tools like Google Analytics to track and analyze user behavior.</li>
+                </ul>
+    
+                <h2>How We Use Your Information</h2>
+                <p>We employ the data we collect for various purposes, which include:</p>
+                <ol>
+                    <li>Providing and Maintaining Services: We use your information to offer and maintain our services, ensuring your seamless experience on our website.</li>
+                    <li>Improving Our Services: We analyze user data to enhance our services, user interface, and content, making sure they meet your expectations.</li>
+                    <li>Personalization: We may use your information to customize your experience by offering personalized content, recommendations, and communications.</li>
+                    <li>Communication: We may send you information, updates, or promotional materials through email or other communication channels you've provided.</li>
+                    <li>Compliance: We ensure our operations comply with applicable laws and regulations, and your data may be used for compliance, auditing, and legal purposes.</li>
+                </ol>
+    
+                <h2>Data Security</h2>
+                <p>We employ robust security measures to protect your data from unauthorized access, disclosure, alteration, and destruction. We regularly review our security practices to safeguard your personal information.</p>
+    
+                <h2>Your Choices</h2>
+                <p>You may choose to opt-out of certain data collection or communication services. You can also access, update, or delete your personal information by contacting us through the provided channels.</p>
+    
+                <h2>Changes to This Privacy Policy</h2>
+                <p>We reserve the right to modify this Privacy Policy as needed. Any changes will be posted on this page with the updated date. We recommend checking this page regularly for updates.</p>
+    
+                <h2>Contact Us</h2>
+                <p>If you have any questions, concerns, or requests regarding your personal information or this Privacy Policy, please don't hesitate to contact us through the provided contact information.</p>
+    
+                <p>This Privacy Policy was last updated on 10/17/2023.</p>
+            </div>
+        </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Use</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <p>&copy; 2023 TerraUkraine</p>
+    </footer>
+
+    <!-- Include any scripts or additional content specific to the soil map here -->
+    
+</body>
+</html>

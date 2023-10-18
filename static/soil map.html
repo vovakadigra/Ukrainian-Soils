@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Map of Ukraine</title>
+    <link rel="icon" type="image/png" href="img/logo1.png">
+    <!-- Include Leaflet.js library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    
+    <!-- Add custom CSS styles here for the soil map page -->
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    header {
+        width: 100%;
+        font-family: Arial, sans-serif;
+        background-color: rgba(51, 51, 51, 0.7); /* Add transparency to the background */
+        color: #fff;
+        padding: 15px 0; /* Keep the top bar's height unchanged */
+        position: fixed; /* Fixed positioning */
+        top: 0; /* Stick to the top of the viewport */
+        left: 0; /* Align with the left edge of the viewport */
+        right: 0; /* Align with the right edge of the viewport */
+        z-index: 1; /* Ensure the header is on top of the map */
+    }
+
+    /* Adjust the logo container styles */
+    header .logo {
+        margin: 0 50px; /* Add margin for spacing if needed */
+    }
+
+    /* Adjust the logo image size */
+    header .logo img {
+        height: 60px; /* Increase the height to make the logo bigger */
+    }
+
+    header nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    header ul li {
+        margin-right: 20px;
+    }
+    header ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        transition: color 0.3s ease;
+    }
+    header ul li a:hover {
+        color: #ff9900;
+    }
+
+    #map {
+        /* Adjust the map container styles */
+        flex: 1; /* Fill available vertical space */
+        width: 100%;
+        position: absolute; /* Absolute positioning */
+        top: 0; /* Align with the top edge of the viewport */
+        left: 0; /* Align with the left edge of the viewport */
+        right: 0; /* Align with the right edge of the viewport */
+        bottom: 0; /* Align with the bottom edge of the viewport */
+        z-index: 0; /* Ensure the map is behind the header and above the footer */
+    }
+
+    footer {
+        width: 100%;
+        font-family: Arial, sans-serif;
+        background-color: rgba(51, 51, 51, 0.7); /* Add transparency to the background */
+        color: #fff;
+        padding: 10px 0;
+        text-align: center;
+        position: fixed; /* Fixed positioning */
+        bottom: 0; /* Stick to the bottom of the viewport */
+        left: 0; /* Align with the left edge of the viewport */
+        right: 0; /* Align with the right edge of the viewport */
+        z-index: 1; /* Ensure the footer is on top of the map */
+    }
+
+    footer p {
+        margin: 0;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    .footer-links a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 15px;
+    }
+
+    .footer-links a:hover {
+        color: #ff9900;
+    }
+
+    /* Add any additional styles specific to the soil map */
+
+
+        
+        /* Add any additional styles specific to the soil map */
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/home"><img class="logo" src="img/logo2.png" alt="Logo"></a>
+            </div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="soil map.html">Soil Map</a></li>
+                <li><a href="soil types.html">Soil Types</a></li>                
+                <li><a href="#research">Research</a></li>
+                <li><a href="#conservation">Conservation</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Soil Map Container -->
+    <div id="map"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Use</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <p>&copy; 2023 TerraUkraine</p>
+    </footer>
+
+    <!-- Include any scripts or additional content specific to the soil map here -->
+    <script>
+        // Initialize the map and add tile layers here
+        var map = L.map('map').setView([49.0, 32.0], 6);
+
+        // Add a tile layer (example using OpenStreetMap tiles)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    </script>
+    
+</body>
+</html>
