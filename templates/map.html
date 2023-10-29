@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Map of Ukraine</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo1.png') }}">
+    <!-- Include Leaflet.js library -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Set the header's background to be transparent */
+        header {
+            background-color: transparent;
+        }
+
+        /* Add a background color to the header content (optional) */
+        header nav {
+            background-color: rgba(51, 51, 51, 0.7);
+            color: #fff;
+            padding: 15px 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            margin: 0 50px;
+        }
+
+        header .logo img {
+            height: 60px;
+        }
+
+        header ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        header ul li {
+            margin-right: 20px;
+        }
+
+        header ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        header ul li a:hover {
+            color: #ff9900;
+        }
+
+        /* Map container */
+        #map {
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1; /* Ensure the map is behind the header and above the footer */
+        }
+
+        /* Dropdown menu selector */
+        .map-selector {
+            position: absolute;
+            top: 50px;
+            left: 0px;
+            margin-top: 80px;
+            margin-left: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+            z-index: 1; /* Ensure the selector is above the map */
+        }
+
+        .map-selector label {
+            color: #fff;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .map-selector select {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .map-selector select:hover {
+            cursor: pointer;
+        }
+
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #cccccc56;
+            border-radius: 5px;
+            padding: 10px;
+            max-width: 200px;
+            color: #fff;
+        }
+
+        .legend-title {
+            font-family: 'Arial';
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .legend-gradient {
+            margin-top: 5px;
+            background: linear-gradient(to right, orange, brown);
+            height: 20px;
+        }
+
+        .legend-label {
+            margin-top: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body style="margin: 0;">
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/home"><img class="logo" src="{{ url_for('static', filename='img/logo2.png') }}" alt="Logo"></a>
+            </div>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/map">Soil Map</a></li>
+                <li><a href="{{ url_for('static', filename='soil types.html') }}">Soil Types</a></li>
+                <li><a href="/research">Research</a></li>
+                <li><a href="#conservation">Conservation</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Soil Map Container -->
+    <div id="map"></div>
+
+    <!-- Dropdown Menu for Map Selection -->
+    <div class="map-selector">
+        <label for="wcs-layer">Select WCS Layer:</label>
+        <select id="wcs-layer">
+            <!-- Add more WCS layer options as needed -->
+            <option value="none" selected>None</option>
+            <optgroup id="black-soil-group" label="Black Soil"></optgroup>
+                <option value="GSOCSEQ:gbsp">&nbsp; &nbsp;Black Soil Distribution</option> <!-- Set the default layer -->
+                <option value="GSOCSEQ:socs">&nbsp; &nbsp;Carbon Potential</option> <!-- Add the new map option -->
+                <option value="GSOCSEQ:socs_u">&nbsp; &nbsp;Carbon Stocks</option> 
+                <option value="gsoc:GSOCmap1.5.0">&nbsp; &nbsp;Global Soil Organic Carbon Map</option> 
+            </optgroup>
+            <optgroup id="other" label="Others"></optgroup>
+                <option value="gsoc:S_GRAVEL">&nbsp; &nbsp;Gravel Distribution</option>
+                <option value="gsoc:S_GRAVEL">&nbsp; &nbsp;Podzol Distribution</option>
+            </optgroup>
+        </select>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-title">Legend Title</div>
+        <div class="legend-gradient"></div>
+        <div class="legend-label">0-100%</div>
+    </div>
+
+    <!-- Include any scripts or additional content specific to the soil map here -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var map = L.map("map").setView([49.0, 31.0], 6); // Set the initial view to Ukraine
+
+        // Use OpenStreetMap's topographic map as the base layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        L.control.scale({ position: 'bottomleft' }).addTo(map);
+
+        var wcsLayer = null;
+
+        document.getElementById("wcs-layer").addEventListener("change", function () {
+            var selectedLayer = document.getElementById("wcs-layer").value;
+            if (selectedLayer === "none") {
+                // If "none" is selected, hide the legend
+                hideLegend();
+                    } else {
+                        // Show the legend for other selected layers
+                        showLegend(selectedLayer);
+                    }
+
+
+                // Function to hide the legend
+                function hideLegend() {
+                    var legend = document.querySelector(".legend");
+                    legend.style.display = "none";
+                }
+                function showLegend(selectedLayer) {
+                var legend = document.querySelector(".legend");
+                var legendTitle = document.querySelector(".legend-title");
+                var legendLabel = document.querySelector(".legend-label");
+                var legendGradient = document.querySelector(".legend-gradient");
+
+                // Show the legend element
+                legend.style.display = "block";
+
+                if (selectedLayer === "GSOCSEQ:gbsp") {
+                    legendTitle.textContent = "Black Soil Distribution";
+                    legendGradient.style.background = "linear-gradient(to right, orange, brown)";
+                    legendLabel.textContent = "0-100%";
+                } else if (selectedLayer === "GSOCSEQ:socs") {
+                    legendTitle.textContent = "Soil Map SOCS_U";
+                    legendGradient.style.background = "linear-gradient(to right, red, yellow, light-blue)";
+                    legendLabel.textContent = "Custom Range";
+
+                } else if (selectedLayer === "GSOCmap1.5.0") {
+                    legendTitle.textContent = "Global Soil Organic Carbon Map";
+                    legendGradient.style.background = "linear-gradient(to right, orange, brown))";
+                    legendLabel.textContent = "Custom Range";
+                    
+                } else if (selectedLayer === "GSOCSEQ:socs_u") {
+                    legendTitle.textContent = "Soil Map SOCS_U";
+                    legendGradient.style.background = "linear-gradient(to right, orange, brown)";
+                    legendLabel.textContent = "Custom Range";
+                } else {
+                    // If you have other layers, you can add more conditions here
+                    // Update the legend based on the selected layer
+                }
+            }
+
+            // Remove the previous WCS layer if there was one
+            if (wcsLayer) {
+                map.removeLayer(wcsLayer);
+            }
+
+            // Add the selected WCS layer
+            wcsLayer = L.tileLayer.wms(
+                "https://io.apps.fao.org/geoserver/wms",
+                {
+                    layers: selectedLayer,
+                    format: "image/png",
+                    transparent: true,
+                    opacity: 0.99,
+                }
+            );
+
+            wcsLayer.addTo(map);
+            updateLegend(selectedLayer);
+        });
+
+        
+
+        // Function to update the legend based on the selected layer
+        function updateLegend(selectedLayer) {
+            var legendTitle = document.querySelector(".legend-title");
+            var legendLabel = document.querySelector(".legend-label");
+            var legendGradient = document.querySelector(".legend-gradient");
+
+            if (selectedLayer === "GSOCSEQ:gbsp") {
+                legendTitle.textContent = "Black Soil Distribution";
+                legendGradient.style.background = "linear-gradient(to right, orange, brown)";
+                legendLabel.textContent = "0-100%";
+            } else if (selectedLayer === "GSOCSEQ:socs") {
+                legendTitle.textContent = "Carbon Stocks";
+                legendGradient.style.background = "linear-gradient(to right, red, yellow, blue)";
+                legendLabel.textContent = "0-100%";
+            } else {
+                // If you have other layers, you can add more conditions here
+                // Update the legend based on the selected layer
+            }
+        }
+    </script>
+</body>
+</html>
