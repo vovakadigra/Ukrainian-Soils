@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo1.png') }}">
+
+    <style>
+        /* Custom background gradient inspired by Ukraine's soil colors */
+        body {
+            background: url("{{ url_for('static', filename='img/login.png') }}"), no-repeat center center fixed;
+            background-size: cover;
+            margin-left: 20px;
+            padding: 0;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Styles for the login form container */
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.45);
+            color: #fff;
+            width: 700px;
+            height: 700px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container h2 {
+            font-size: 24px;
+            font: #fff;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* Styling for the input fields */
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.7);
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Add hover effect for input fields */
+        .login-input:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .login-button {
+            background-color: #333;
+            margin-top: -5px;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sign-in-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #ff9900;
+        }
+
+        /* Styles for social login buttons */
+        .social-login {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .social-button {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #333;
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+        }
+
+        .social-button:hover {
+            background-color: #ff9900;
+        }
+
+        /* Style for the password input and controls row */
+        .password-input {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        /* Style for the "Show Password" checkbox label */
+        .show-password-label {
+            font-size: 14px;
+        }
+
+        /* Style for the "Forgot Password?" text link */
+        .forgot-password {
+            margin-top: -5px;
+            font-size: 14px;
+            text-align: right;
+            width: 100%;
+        }
+
+        /* Style for the clickable "Forgot Password?" text link */
+        .forgot-password a {
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Error message style */
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 20px;
+            margin-left: 20px;
+            background-color: #ffcfcf;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Tab styles */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .tab-button {
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+        }
+
+        .tab-button:hover {
+            background-color: #ff9900;
+        }
+
+        /* Show tab content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <section class="login-container">
+        <h2 id="form-title">Login</h2>
+        <div class="tabs">
+            <button class="tab-button" onclick="openTab('login-tab')">Login</button>
+            <button class="tab-button" onclick="openTab('signup-tab')">Sign Up</button>
+        </div>
+
+        <!-- Login Tab -->
+        <div id="login-tab" class="tab-content active">
+            <form action="/" method="POST">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" class="login-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="login-input" required>
+                </div>
+                <p class="forgot-password"><a href="#">Forgot Password?</a></p>
+                <button type="submit" class="login-button">Login</button>
+            </form>
+        </div>
+
+        <!-- Sign Up Tab -->
+        <div id="signup-tab" class="tab-content" >
+            <form action="/" method="POST">
+                <div class="form-group">
+                    <label for="new-username">New Username:</label>
+                    <input type="text" id="new-username" name="new-username" class="login-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password">New Password:</label>
+                    <input type="password" id="new-password" name="new-password" class="login-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" class="login-input" required>
+                </div>
+                <button type="submit" class="sign-in-button">Sign Up</button>
+            </form>
+        </div>
+
+        <!-- Error message paragraph -->
+        {% if error_message and error_message != "" %}
+        <p class="error-message">{{ error_message }}</p>
+        {% endif %}
+    </section>
+
+    <script>
+        function openTab(tabName) {
+            var i, tabContent, tabButtons;
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            tabButtons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].style.backgroundColor = "#333";
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.querySelector('[onclick="openTab(\'' + tabName + '\')"]').style.backgroundColor = "#ff9900";
+            
+            // Update the form title based on the active tab
+            document.getElementById("form-title").textContent = (tabName === "login-tab") ? "Login" : "Sign Up";
+            
+            // Hide both error messages when switching tabs
+            document.getElementById("login-error-message").textContent = "";
+            document.getElementById("signup-error-message").textContent = "";
+        }
+        // Show the login tab by default
+        openTab("login-tab");
+    </script>
+
+    <!-- JavaScript to handle tab switching and form title -->
+    <script>
+        function validateLogin() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            if (username.trim() === "" && password.trim() === "") {
+                // Both fields are empty, don't show the error message
+                return false; // Prevent form submission
+            }
+            // Other validation logic here, if needed
+            return true; // Continue with form submission
+        }
+
+        function validateSignup() {
+            var newUsername = document.getElementById("new-username").value;
+            var newPassword = document.getElementById("new-password").value;
+            var confirmPassword = document.getElementById("confirm-password").value;
+
+            if (newUsername.trim() === "" && newPassword.trim() === "" && confirmPassword.trim() === "") {
+                // All fields are empty, don't show the error message
+                return false; // Prevent form submission
+            }
+
+            // Other validation logic here, if needed
+            return true; // Continue with form submission
+        }
+    </script>
+    <script>
+        function openTab(tabName) {
+            var i, tabContent, tabButtons;
+            tabContent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+            tabButtons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].style.backgroundColor = "#333";
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.querySelector('[onclick="openTab(\'' + tabName + '\')"]').style.backgroundColor = "#ff9900";
+            
+            // Update the form title based on the active tab
+            document.getElementById("form-title").textContent = (tabName === "login-tab") ? "Login" : "Sign Up";
+        }
+        // Show the login tab by default
+        openTab("login-tab");
+    </script>
+
+    <script>
+    // Function to remove the error message after 5 seconds
+    function removeErrorMessage() {
+        var errorMessage = document.querySelector('.error-message');
+        if (errorMessage) {
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, 2000); // 5000 milliseconds (5 seconds)
+        }
+    }
+
+    // Call the function to remove the error message after 5 seconds
+    removeErrorMessage();
+    window.addEventListener('load', function() {
+            document.getElementById('error-message').style.display = 'none';})
+    </script>
+</body>
+</html>

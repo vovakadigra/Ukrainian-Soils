@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo1.png') }}">
+    <style>
+        /* Add custom CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            background-image: url("{{ url_for('static', filename='img/background.png') }}");
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            min-height: 100vh;
+        }
+        header {
+            background-color: rgba(51, 51, 51, 0.7);
+            color: #fff;
+            padding: 15px 0;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            margin: 0 50px;
+        }
+
+        header .logo img {
+            height: 60px;
+        }
+
+        header ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        header ul li {
+            margin-right: 20px;
+        }
+
+        header ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        header ul li a:hover {
+            color: #ff9900;
+        }
+
+        #hero {
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        #hero img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        #hero h1 {
+            color: #fff;
+            font-size: 36px;
+            margin: 20px 0;
+        }
+
+        #hero p {
+            font-size: 18px;
+            color: #444;
+        }
+
+        /* Style for other sections here */
+
+        footer {
+            width: 100%;
+            background-color: rgba(51, 51, 51, 0.7);
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        footer p {
+            margin: 0;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        .footer-links a:hover {
+            color: #ff9900;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            width: 400px;
+            margin: 0 auto;
+            border-radius: 25px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-bar {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            background-color: transparent;
+            outline: none;
+        }
+
+        .search-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-button:hover {
+            background-color: #ff9900;
+        }
+
+        .search-results {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 10px;
+            display: none;
+            width: 50%;
+            margin: 20px auto;
+            max-height: 300px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-results .result {
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .search-results .result p {
+            font-size: 18px;
+            color: #333;
+            margin: 0;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .search-results .result .close-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+           
+        }
+
+        .search-results .result .close-button:hover {
+            background-color: #ff9900;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img class="logo" src="{{ url_for('static', filename='img/logo2.png') }}" alt="Logo">
+            </div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="/map">Soil Map</a></li>
+                <li><a href="{{ url_for('static', filename='soil types.html') }}">Soil Types</a></li>
+                <li><a href="/research">Research</a></li>
+                <li><a href="#conservation">Conservation</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <h1>Exploring the Rich Soils of Ukraine</h1>
+        <p>Discover the Geological Wonders and Agricultural Potential of Ukrainian Soils.</p>
+    </section>
+
+    <form id="search-form" class="search-container">
+        <input type="text" id="search-query" class="search-bar" placeholder="Search...">
+        <button type="submit" class="search-button">Search</button>
+    </form>
+
+    <div id="search-results" class="search-results"></div>
+
+    <!-- Add content for other sections here -->
+
+    <footer>
+        <div class="footer-links">
+            <a href="{{ url_for('static', filename='privacy.html') }}">Privacy Policy</a>
+            <a href="terms.html">Terms of Use</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <p>&copy; 2023 TerraUkraine</p>
+    </footer>
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const searchQuery = document.getElementById('search-query').value;
+            const searchResults = document.getElementById('search-results');
+    
+            // Send an AJAX request to your Flask route
+            fetch('/search', {
+                method: 'POST',
+                body: JSON.stringify({ query: searchQuery }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .then(data => {
+                if (data.results && data.results.length > 0) {
+                    searchResults.innerHTML = ''; // Clear previous results
+                    data.results.forEach(result => {
+                        const resultDiv = document.createElement('div');
+                        resultDiv.classList.add('result');
+    
+                        const resultText = document.createElement('p');
+                        resultText.textContent = result.answer;
+    
+                        const copyButton = document.createElement('button');
+                        copyButton.classList.add('copy-button');
+                        const copyIcon = document.createElement('img');
+                        copyIcon.src = '/static/img/copy-icon.png'; // Reference the icon from the 'static' directory
+                        copyIcon.style.width = '20px'; // Set the width of the icon
+                        copyIcon.style.height = '20px'; // Set the height of the icon
+
+                        // Position the copy icon in the top right corner
+                        copyButton.style.position = 'absolute';
+                        copyButton.style.top = '10px'; // Adjust the top position as needed
+                        copyButton.style.right = '10px'; // Adjust the right position as needed
+                        copyIcon.style.textDecoration = 'none'; 
+                        copyButton.appendChild(copyIcon);
+                        copyButton.addEventListener('click', function() {
+                            const textToCopy = resultText.textContent;
+                            const textArea = document.createElement('textarea');
+                            textArea.value = textToCopy;
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textArea);
+                            alert('Text copied to clipboard: ' + textToCopy);
+                        });
+    
+                        const closeButton = document.createElement('button');
+                        closeButton.classList.add('close-button');
+                        closeButton.textContent = 'Close';
+    
+                        closeButton.addEventListener('click', function() {
+                            resultDiv.remove();
+    
+                            // Check if there are any results left
+                            if (searchResults.querySelectorAll('.result').length === 0) {
+                                searchResults.style.display = 'none'; // Hide the results container
+                            }
+                        });
+    
+                        resultDiv.appendChild(resultText);
+                        resultDiv.appendChild(copyButton);
+                        resultDiv.appendChild(closeButton);
+    
+                        searchResults.appendChild(resultDiv);
+                    });
+    
+                    searchResults.style.display = 'block'; // Show the results container
+                } else {
+                    searchResults.innerHTML = '<p class="no-results">No results found.</p>';
+                    searchResults.style.display = 'none'; // Hide the results container
+                }
+    
+                const closeButtons = searchResults.querySelectorAll('.close-button');
+                closeButtons.forEach(button => {
+                    button.style.display = 'block';
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
