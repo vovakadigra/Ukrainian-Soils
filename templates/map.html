@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Soil Map of Ukraine</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo1.png') }}">
     <!-- Include Leaflet.js library -->
@@ -12,6 +13,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            align-items: center;
         }
 
         /* Set the header's background to be transparent */
@@ -128,7 +130,7 @@
 
         .legend-label {
             margin-top: 5px;
-            font-size: 14px;
+            font-size: 9px;
             font-weight: bold;
         }
     </style>
@@ -143,11 +145,9 @@
             <ul>
                 <li><a href="/home">Home</a></li>
                 <li><a href="/map">Soil Map</a></li>
-                <li><a href="{{ url_for('static', filename='soil types.html') }}">Soil Types</a></li>
+                <li><a href="/soil-types">Soil Types</a></li>
                 <li><a href="/research">Research</a></li>
-                <li><a href="#conservation">Conservation</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#resources">Resources</a></li>
+                <li><a href="/conversation">Conversation</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
@@ -167,7 +167,7 @@
                 <option value="GSOCSEQ:gbsp">&nbsp; &nbsp;Black Soil Distribution</option> <!-- Set the default layer -->
                 <option value="GSOCSEQ:socs">&nbsp; &nbsp;Carbon Potential</option> <!-- Add the new map option -->
                 <option value="GSOCSEQ:socs_u">&nbsp; &nbsp;Carbon Stocks</option> 
-                <option value="gsoc:GSOCmap1.5.0">&nbsp; &nbsp;Global Soil Organic Carbon Map</option> 
+                <option value="gsoc:GSOCmap1.5.0">&nbsp; &nbsp;Organic Carbon</option> 
             </optgroup>
             <optgroup id="other" label="Others"></optgroup>
                 <option value="gsoc:S_GRAVEL">&nbsp; &nbsp;Gravel Distribution</option>
@@ -178,7 +178,7 @@
 
     <!-- Legend -->
     <div class="legend">
-        <div class="legend-title">Legend Title</div>
+        <div class="legend-title">Base Map Layer</div>
         <div class="legend-gradient"></div>
         <div class="legend-label">0-100%</div>
     </div>
@@ -227,22 +227,23 @@
                     legendGradient.style.background = "linear-gradient(to right, orange, brown)";
                     legendLabel.textContent = "0-100%";
                 } else if (selectedLayer === "GSOCSEQ:socs") {
-                    legendTitle.textContent = "Soil Map SOCS_U";
+                    legendTitle.textContent = "Carbon Potential";
                     legendGradient.style.background = "linear-gradient(to right, red, yellow, light-blue)";
-                    legendLabel.textContent = "Custom Range";
+                    legendLabel.textContent = "0-100%";
 
                 } else if (selectedLayer === "GSOCmap1.5.0") {
-                    legendTitle.textContent = "Global Soil Organic Carbon Map";
+                    legendTitle.textContent = "Organic Carbon";
                     legendGradient.style.background = "linear-gradient(to right, orange, brown))";
-                    legendLabel.textContent = "Custom Range";
+                    legendLabel.textContent = "0-100%";
                     
                 } else if (selectedLayer === "GSOCSEQ:socs_u") {
-                    legendTitle.textContent = "Soil Map SOCS_U";
-                    legendGradient.style.background = "linear-gradient(to right, orange, brown)";
-                    legendLabel.textContent = "Custom Range";
+                    legendTitle.textContent = "Carbon Stocks";
+                    legendGradient.style.background = "linear-gradient(to right, green)";
+                    legendLabel.textContent = "0-100%";
                 } else {
-                    // If you have other layers, you can add more conditions here
-                    // Update the legend based on the selected layer
+                    llegendTitle.textContent === "Base Layer";
+                    legendGradient.style.background = "linear-gradient(to right black)";
+
                 }
             }
 
@@ -279,10 +280,21 @@
                 legendGradient.style.background = "linear-gradient(to right, orange, brown)";
                 legendLabel.textContent = "0-100%";
             } else if (selectedLayer === "GSOCSEQ:socs") {
-                legendTitle.textContent = "Carbon Stocks";
+                legendTitle.textContent = "Carbon Potential";
                 legendGradient.style.background = "linear-gradient(to right, red, yellow, blue)";
                 legendLabel.textContent = "0-100%";
-            } else {
+            } else if (selectedLayer === "GSOCmap1.5.0") {
+                    legendTitle.textContent = "Global Soil Organic Carbon Map";
+                    legendGradient.style.background = "linear-gradient(to right, orange, brown))";
+                    legendLabel.textContent = "0-100%";
+                    
+            } else if (selectedLayer === "GSOCSEQ:socs_u") {
+                    legendTitle.textContent = "Carbon Stocks";
+                    legendGradient.style.background = "linear-gradient(to right, orange, brown)";
+                    legendLabel.textContent = "0-100%";
+            }
+            
+            else {
                 // If you have other layers, you can add more conditions here
                 // Update the legend based on the selected layer
             }

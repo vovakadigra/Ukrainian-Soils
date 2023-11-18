@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ukrainian Soil Types</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo1.png') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        #map {
+            height: 600px;
+            width: 1450px;
+            margin-left: 12%;
+            justify-content: center;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            opacity: 0.95;
+        }
+        .legend {
+            background:  rgba(235, 234, 234, 0.4);;
+            padding: 10px;
+            color: #444;
+        }
+        .legend-item {
+            margin-bottom: 5px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            background-image: url("{{ url_for('static', filename='img/background3.png') }}");
+            background-size: 100% 28%; /* Set the background size to "auto" */
+            background-repeat: no-repeat; /* Prevent the background from repeating */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: rgba(51, 51, 51, 0.7);
+            color: #fff;
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+        }
+
+        
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            margin: 0 50px;
+        }
+
+        header .logo img {
+            height: 60px;
+        }
+
+        header ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        header ul li {
+            margin-right: 20px;
+        }
+
+        header ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        header ul li a:hover {
+            color: #ff9900;
+        }
+
+        footer {
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(51, 51, 51, 0.7);
+            color: #fff;
+            padding: 0.5% 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .footer-links {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ff9900;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .social-icons a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 24px;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #ff9900;
+        }
+
+        .copyright {
+            font-size: 14px;
+        }
+
+        .social-icon:hover {
+            color: #ff9900;
+        }
+
+        .section-title {
+            margin-top: 1%;
+            font-size: 29px;
+            color: #444;
+            text-align: center;
+        }
+
+        .section-description {
+            font-size: 18px;
+            color: #444;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .content {
+            max-width: 1400px;
+            margin-top: 110px;
+            margin-left: 12%;
+        }
+
+        #soil-types {
+            background-color: #ffffffb9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .soil-types-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .soil-type {
+            padding: 15px;
+            background-color: #ffffff93;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .soil-type:hover {
+            background-color: #fff;
+            
+        }
+
+        .soil-type:hover .soil-name {
+            color:#ff9900;
+            
+        }
+        
+        .value-container {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .value-label {
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .value {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .soil-name {
+            font-size: 20px;
+        }
+
+        .soil-description {
+            font-size: 16px;
+        }
+
+        /* Additional styles for the soil info section */
+        #soil-info {
+            background-color: #fff;
+            padding: 20px;
+            display: none;
+        }
+
+        /* Additional styles for the sticky footer */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            font-size: 26px;
+        }
+        .chart {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .soil-type-chart {
+            margin: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            flex: 0 0 calc(50% - 40px);
+            text-align: center;
+            position: relative;
+            height: auto;
+        }
+        .soil-type-chart h2 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .fertility-score {
+            position: absolute;
+            height: 20px;
+            top: 10px;
+            right: 10px;
+            background-color: #1abd1a;
+            color: white;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .hero{
+            margin-top: 2%;
+            background-color: #fff;
+
+        }
+        p{
+         font-size: 14p;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <nav>
+                <div class="logo">
+                    <a href="/home"><img class="logo" src="{{ url_for('static', filename='img/logo2.png') }}" alt="Logo"></a>
+                </div>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/map">Soil Map</a></li>
+                    <li><a href="/soil-types">Soil Types</a></li>
+                    <li><a href="/research">Research</a></li>
+                    <li><a href="/conversation">Conversation</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+    
+        <section id="soil-types" class="content">
+            <h2 class="section-title">Soil Types of Ukraine</h2>
+            <p class="section-description">Explore the diverse and fascinating soil types found across Ukraine.</p>
+            <div class="soil-types-container">
+                <div class="soil-type" onclick="showSoilInfo('Chernozem')">
+                    <h3 class="soil-name">Chernozem</h3>
+                    <p class="soil-description">Known for its high fertility, chernozem is a black soil found in the central and southern parts of Ukraine.</p>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-seedling"></i> Fertility:</span>
+                        <span class="value">9/10</span>
+                    </div>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-map-marker-alt"></i> Distribution in Ukraine:</span>
+                        <span class="value">31%</span>
+                    </div>
+                </div>
+                <div class="soil-type" onclick="showSoilInfo('Podzol')">
+                    <h3 class="soil-name">Podzol</h3>
+                    <p class="soil-description">Podzol soils are common in the northern regions of Ukraine, characterized by their acidic nature and leached layers.</p>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-seedling"></i> Fertility:</span>
+                        <span class="value">5/10</span>
+                    </div>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-map-marker-alt"></i> Distribution in Ukraine:</span>
+                        <span class="value">22%</span>
+                    </div>
+                </div>
+                <div class="soil-type" onclick="showSoilInfo('Sod-Podzol')">
+                    <h3 class="soil-name">Sod-Podzol</h3>
+                    <p class="soil-description">Sod-Podzol soils are a variation of podzol soils and contain some organic matter, making them more suitable for agriculture than typical podzols.</p>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-seedling"></i> Fertility:</span>
+                        <span class="value">6/10</span>
+                    </div>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-map-marker-alt"></i> Distribution in Ukraine:</span>
+                        <span class="value">10%</span>
+                    </div>
+                </div>
+                <div class="soil-type" onclick="showSoilInfo('Grey Forest Soils')">
+                    <h3 class="soil-name">Grey Forest Soils</h3>
+                    <p class="soil-description">Grey forest soils can be found in various parts of Ukraine and are known for their medium fertility.</p>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-seedling"></i> Fertility:</span>
+                        <span class="value">7/10</span>
+                    </div>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-map-marker-alt"></i> Distribution in Ukraine:</span>
+                        <span class="value">14%</span>
+                    </div>
+                </div>
+                <div class="soil-type" onclick="showSoilInfo('Brown Soils')">
+                    <h3 class="soil-name">Brown Soils</h3>
+                    <p class="soil-description">Brown soils are found in various parts of Ukraine, including the southern and central regions. They are typically intermediate in fertility and can support a range of crops.</p>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-seedling"></i> Fertility:</span>
+                        <span class="value">6/10</span>
+                    </div>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-map-marker-alt"></i> Distribution in Ukraine:</span>
+                        <span class="value">12%</span>
+                    </div>
+                </div>
+                <div class="soil-type" onclick="showSoilInfo('Saline and Solonetz Soils')">
+                    <h3 class="soil-name">Saline and Solonetz Soils</h3>
+                    <p class="soil-description">These soils are often found in areas with poor drainage and are characterized by high levels of soluble salts. They are generally unsuitable for agriculture without proper land reclamation.</p>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-seedling"></i> Fertility:</span>
+                        <span class="value">2/10</span>
+                    </div>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-map-marker-alt"></i> Distribution in Ukraine:</span>
+                        <span class="value">5%</span>
+                    </div>
+                </div>
+                <div class="soil-type" onclick="showSoilInfo('Peat Soils')">
+                    <h3 class="soil-name">Peat Soils</h3>
+                    <p class="soil-description">Peat soils are rich in organic material but may require management to prevent excessive decomposition. They can be used for agriculture.</p>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-seedling"></i> Fertility:</span>
+                        <span class="value">6/10</span>
+                    </div>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-map-marker-alt"></i> Distribution in Ukraine:</span>
+                        <span class="value">5%</span>
+                    </div>
+                </div>
+                <div class="soil-type" onclick="showSoilInfo('Alluvial Soils')">
+                    <h3 class="soil-name">Alluvial Soils</h3>
+                    <p class="soil-description">Alluvial soils along riverbanks and floodplains are typically fertile and well-suited for agriculture.</p>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-seedling"></i> Fertility:</span>
+                        <span class="value">8/10</span>
+                    </div>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-map-marker-alt"></i> Distribution in Ukraine:</span>
+                        <span class="value">8%</span>
+                    </div>
+                </div>
+                <div class="soil-type" onclick="showSoilInfo('Mountain Soils')">
+                    <h3 class="soil-name">Mountain Soils</h3>
+                    <p class="soil-description">The fertility of mountain soils in the Carpathian and Crimean Mountains can vary based on location and altitude, ranging from moderately fertile to highly fertile.</p>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-seedling"></i> Fertility:</span>
+                        <span class="value">Varies (5-8/10)</span>
+                    </div>
+                    <div class="value-container">
+                        <span class="value-label"><i class="fas fa-map-marker-alt"></i> Distribution in Ukraine:</span>
+                        <span class="value">7%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="hero" class="hero">
+            <div class="hero-overlay"></div>
+            <div class="hero-content" style=" display: flex; align-items: center;">
+                <div class="hero-text" style="flex: 1; padding: 20px;">
+                    <h1 class="hero-title">Unearthing the Treasures of Ukrainian Soil</h1>
+                </div>
+                <div class="separator" style="border-left: 1px solid #ccc; height: 150px;"></div>
+                <div class="hero-text" style="flex: 1; padding: 20px;font-size: 21px;color: #333;">
+                    <p class="hero-subtitle" style="font-size: 19px; width:82%">Ukraine boasts the world's largest continuous expanse of chernozem, a remarkable black soil renowned for its exceptional fertility. Covering around 30% of Ukraine's territory, this unique soil type has transformed the nation into one of the planet's agricultural powerhouses. Chernozem is distinguished by its deep, dark hue and abundant organic matter, creating an ideal canvas for cultivating an array of crops. It has played a pivotal role in Ukraine's agricultural legacy, establishing the country's status as the 'breadbasket of Europe.'</p>
+                </div>
+            </div>
+        </section>
+        
+
+        <div style="width: 80%; margin: 0 auto; background-color: #fffffff0;border: 1px solid #e0e0e0;
+        border-radius: 10px; margin-bottom: 20px; margin-top: 2%;">
+            <h2 style="text-align: center; font-size: 26px; color:#444;">Soil Distribution in Ukrainian Cities</h2>
+            <canvas id="soil-distribution-chart" width="400" height="200"></canvas>
+        </div>
+        <script>
+            const ctx = document.getElementById('soil-distribution-chart').getContext('2d');
+        
+            const data = {
+                labels: [
+                    'Kyiv', 'Kharkiv', 'Lviv', 'Odessa', 'Dnipro', 'Donetsk', 'Zaporizhia',
+                    'Vinnytsia', 'Lutsk', 'Ternopil', 'Ivano-Frankivsk', 'Chernivtsi', 'Zhytomyr', 'Poltava',
+                    'Kropyvnytskyi', 'Mykolaiv', 'Rivne', 'Sumy', 'Kherson', 'Cherkasy', 'Khmelnytskyi', 'Uzhhorod', 'Crimea'],
+                    datasets: [
+                        {
+                            label: 'Chernozem',
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1,
+                            data: [25, 28, 22, 40, 30, 26, 30, 33, 32, 28, 27, 30, 35, 31, 29, 36, 37, 28, 25, 29, 30, 27, 20, 35],
+                        },
+                        {
+                            label: 'Podzol',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1,
+                            data: [35, 30, 29, 20, 26, 24, 28, 31, 26, 30, 25, 22, 30, 32, 28, 30, 29, 26, 35, 29, 28, 26, 18, 24],
+                        },
+                        {
+                            label: 'Sod-Podzol',
+                            backgroundColor: 'rgba(255, 205, 86, 0.2)',
+                            borderColor: 'rgba(255, 205, 86, 1)',
+                            borderWidth: 1,
+                            data: [15, 20, 20, 10, 18, 22, 20, 20, 18, 15, 20, 22, 20, 25, 24, 28, 30, 20, 18, 22, 20, 25, 15, 20],
+                        },
+                        {
+                            label: 'Grey Forest Soils',
+                            backgroundColor: 'rgba(75, 0, 130, 0.2)',
+                            borderColor: 'rgba(75, 0, 130, 1)',
+                            borderWidth: 1,
+                            data: [20, 18, 25, 10, 24, 15, 18, 15, 22, 20, 20, 18, 20, 15, 20, 18, 25, 10, 22, 20, 18, 15, 10, 22],
+                        },
+                        {
+                            label: 'Brown Soils',
+                            backgroundColor: 'rgba(218, 112, 214, 0.2)',
+                            borderColor: 'rgba(218, 112, 214, 1)',
+                            borderWidth: 1,
+                            data: [18, 22, 20, 15, 20, 25, 30, 20, 20, 22, 20, 15, 20, 15, 20, 22, 25, 20, 18, 15, 20, 22, 25, 18],
+                        },
+                        {
+                            label: 'Saline and Solonetz Soils',
+                            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                            borderColor: 'rgba(255, 0, 0, 1)',
+                            borderWidth: 1,
+                            data: [5, 5, 5, 5, 10, 5, 2, 5, 5, 5, 5, 2, 5, 5, 10, 5, 5, 5, 5, 5, 2, 5, 5, 0],
+                        },
+                        {
+                            label: 'Peat Soils',
+                            backgroundColor: 'rgba(0, 128, 0, 0.2)',
+                            borderColor: 'rgba(0, 128, 0, 1)',
+                            borderWidth: 1,
+                            data: [12, 15, 18, 13, 20, 10, 12, 10, 15, 18, 20, 13, 15, 18, 10, 12, 13, 18, 15, 10, 15, 20, 13, 18],
+                        },
+                        {
+                            label: 'Alluvial Soils',
+                            backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                            borderColor: 'rgba(0, 0, 255, 1)',
+                            borderWidth: 1,
+                            data: [18, 20, 22, 15, 12, 18, 20, 18, 15, 18, 20, 15, 20, 15, 12, 18, 20, 18, 15, 12, 18, 20, 15, 12],
+                        },
+                        {
+                            label: 'Mountain Soils',
+                            backgroundColor: 'rgba(160, 32, 240, 0.2)',
+                            borderColor: 'rgba(160, 32, 240, 1)',
+                            borderWidth: 1,
+                            data: [10, 13, 15, 10, 12, 10, 13, 15, 13, 10, 12, 15, 10, 13, 10, 12, 10, 13, 15, 13, 10, 12, 10, 15],
+                        },
+                    ],
+            };
+        
+            const options = {
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Percentage (%)',
+                        },
+                    },
+                },
+            };
+        
+            const myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options,
+            });
+        </script>
+    
+    <div class="chart-container-chart">
+        <h1>Top 5 Fertile Soil Types in Ukraine</h1>
+        <div class="chart">
+            <div class="soil-type-chart">
+                <h2>1. Chernozem (Black Soil)</h2>
+                <span class="fertility-score">Fertility: 9/10</span>
+            </div>
+            <div class="soil-type-chart">
+                <h2>2. Alluvial Soils</h2>
+                <span class="fertility-score">Fertility: 8/10</span>
+            </div>
+            <div class="soil-type-chart">
+                <h2>3. Grey Forest Soils</h2>
+                <span class="fertility-score">Fertility: 7/10</span>
+            </div>
+            <div class="soil-type-chart">
+                <h2>4. Peat Soils</h2>
+                <span class="fertility-score">Fertility: 6/10</span>
+            </div>
+            <div class="soil-type-chart">
+                <h2>5. Sod-Podzol</h2>
+                <span class="fertility-score">Fertility: 6/10</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="hero-content" style=" display: flex; align-items: center;">
+        <div class="hero-text" style="flex: 1; padding: 20px;">
+            <h1 class="hero-title">Organic Production in Ukraine</h1>
+        </div>
+        <div class="separator" style="border-left: 1px solid #ccc; height: 170px;"></div>
+        <div class="hero-text" style="flex: 1; padding: 20px;font-size: 20px;">
+            <p class="hero-subtitle" style="font-size: 18px; width:80%; color: #333;">According to data of the operational monitoring, 
+                conducted by the Ministry of Agricultural Policy and Food of Ukraine 
+                from certification bodies that certified organic production and circulation of 
+                organic products in Ukraine in accordance with a standard equivalent to Council Regulation (EU) No 834/2007 
+                and NOP (USA) as of 31.12.2021, the total area of agricultural land under organic production and 
+                in-conversion is 422,299 hectares (1% of the total area of agricultural land in Ukraine),
+                including the area of organic agricultural land  370,110 hectares, the area of agricultural land in-conversion 
+                 52,189 hectares. The total number of operators is 528, including 418 agricultural producers.</p>
+        </div>
+    </div>
+    <h1>Organic Map of Ukraine</h1>
+    <p class="section-description">Total area of agricultural land (organic and in-conversion),ha</p>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([49.0, 31.0], 6); // Set the initial coordinates and zoom level
+
+        // Add a tile layer (you can replace this with your own map source)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Define city boundaries with local file paths and fill colors
+        var cityBoundaries = [
+            {
+                name: 'Vinnytska',
+                path: '/static/ukraine_geojson/UA_05_Vinnytska.geojson',
+                fillColor: '#beed53'
+            },
+            {
+                name: 'Volynska',
+                path: '/static/ukraine_geojson/UA_07_Volynska.geojson',
+                fillColor: ' #82b300 '
+            },
+            {
+                name: 'Luhanska',
+                path: '/static/ukraine_geojson/UA_09_Luhanska.geojson',
+                fillColor: 'grey'
+            },
+            {
+                name: 'Dnipropetrovska',
+                path: '/static/ukraine_geojson/UA_12_Dnipropetrovska.geojson',
+                fillColor: '#82b300'
+            },
+            {
+                name: 'Donetska',
+                path: '/static/ukraine_geojson/UA_14_Donetska.geojson',
+                fillColor: 'grey'
+            },
+            {
+                name: 'Zhytomyrska',
+                path: '/static/ukraine_geojson/UA_18_Zhytomyrska.geojson',
+                fillColor: '#517501'
+            },
+            {
+                name: 'Zakarpatska',
+                path: '/static/ukraine_geojson/UA_21_Zakarpatska.geojson',
+                fillColor: '#beed53'
+            },
+            {
+                name: 'Zaporizka',
+                path: '/static/ukraine_geojson/UA_23_Zaporizka.geojson',
+                fillColor: '#517501'
+            },
+            {
+                name: 'Ivano Frankivska',
+                path: '/static/ukraine_geojson/UA_26_Ivano_Frankivska.geojson',
+                fillColor: '#eeffba'
+            },
+            {
+                name: 'Kyivska',
+                path: '/static/ukraine_geojson/UA_32_Kyivska.geojson',
+                fillColor: '#beed53'
+            },
+            {
+                name: 'Kirovohradska',
+                path: '/static/ukraine_geojson/UA_35_Kirovohradska.geojson',
+                fillColor: ' #82b300 '
+            },
+            {
+                name: 'Avtonomna Respublika Krym',
+                path: '/static/ukraine_geojson/UA_43_Avtonomna_Respublika_Krym.geojson',
+                fillColor: 'grey'
+            },
+            {
+                name: 'Lvivska',
+                path: '/static/ukraine_geojson/UA_46_Lvivska.geojson',
+                fillColor: ' #82b300 '
+            },
+            {
+                name: 'Mykolaivska',
+                path: '/static/ukraine_geojson/UA_48_Mykolaivska.geojson',
+                fillColor: '#beed53'
+            },
+            {
+                name: 'Odeska',
+                path: '/static/ukraine_geojson/UA_51_Odeska.geojson',
+                fillColor: '#517501'
+            },
+            {
+                name: 'Poltavska',
+                path: '/static/ukraine_geojson/UA_53_Poltavska.geojson',
+                fillColor: '#517501'
+            },
+            {
+                name: 'Rivnenska',
+                path: '/static/ukraine_geojson/UA_56_Rivnenska.geojson',
+                fillColor: ' #82b300 '
+            },
+            {
+                name: 'Sumska',
+                path: '/static/ukraine_geojson/UA_59_Sumska.geojson',
+                fillColor: '#eeffba'
+            },
+            {
+                name: 'Ternopilska',
+                path: '/static/ukraine_geojson/UA_61_Ternopilska.geojson',
+                fillColor: '#517501'
+            },
+            {
+                name: 'Kharkivska',
+                path: '/static/ukraine_geojson/UA_63_Kharkivska.geojson',
+                fillColor: '#beed53'
+            },
+            {
+                name: 'Khersonska',
+                path: '/static/ukraine_geojson/UA_65_Khersonska.geojson',
+                fillColor: '#517501'
+            },
+            {
+                name: 'Khmelnytska',
+                path: '/static/ukraine_geojson/UA_68_Khmelnytska.geojson',
+                fillColor: ' #82b300 '
+            },
+            {
+                name: 'Cherkaska',
+                path: '/static/ukraine_geojson/UA_71_Cherkaska.geojson',
+                fillColor: '#517501'
+            },
+            {
+                name: 'Chernihivska',
+                path: '/static/ukraine_geojson/UA_74_Chernihivska.geojson',
+                fillColor: '#82b300'
+            },
+            {
+                name: 'Chernivetska',
+                path: '/static/ukraine_geojson/UA_77_Chernivetska.geojson',
+                fillColor: '#eeffba'
+            },
+            //{
+               // name: 'Full Ukraine',
+                //path: '/static/ukraine_geojson/UA_FULL_Ukraine.geojson',
+                //fillColor: 'gray'
+           // }
+        ];
+
+                // Create the legend
+                var legend = L.control({ position: 'bottomright' });
+
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'legend');
+        var labels = [];
+
+        // Define the region colors and labels
+        var fetlityColours = {
+            'No data': 'grey',
+            '0-999': '#eeffba',
+            '1000-9999': '#beed53',
+            '10000-29999': '#82b300',
+            '>30000': '#517501'
+            // Add more regions and colors as needed
+        };
+
+        // Loop through the fetlityColours object to create legend items
+        for (var region in fetlityColours) {
+            labels.push('<div class="legend-item"><div class="legend-color" style="background: ' + fetlityColours[region] + '"></div>' + region + '</div>');
+        }
+
+        div.innerHTML = labels.join('');
+        return div;
+    };
+
+    legend.addTo(map);
+
+
+
+        // Function to style city boundaries
+        function styleCityBoundary(feature, fillColor) {
+            return {
+                fillColor: fillColor,
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                fillOpacity: 0.65
+            };
+        }
+
+        // Function to add GeoJSON layer for a city boundary
+        function addCityBoundaryToMap(city) {
+            fetch(city.path)
+                .then(response => response.json())
+                .then(geojson => {
+                    L.geoJSON(geojson, {
+                        style: function (feature) {
+                            return styleCityBoundary(feature, city.fillColor);
+                        }
+                    }).addTo(map);
+                });
+        }
+
+        // Add city boundaries to the map
+        cityBoundaries.forEach(addCityBoundaryToMap);
+    </script>
+
+<footer>
+    <div class="footer-links">
+        <a href="{{ url_for('static', filename='privacy.html') }}">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="#contact">Contact</a>
+    </div>
+    <div class="social-icons">
+        <a href="#" class="fab fa-facebook"></a>
+        <a href="#" class="fab fa-twitter"></a>
+        <a href="#" class="fab fa-instagram"></a>
+        <a href="#" class="fab fa-telegram"></a>
+    </div>
+    <p class="copyright">&copy; 2023 TerraUkraine</p>
+</footer>
+</body>
+</html>

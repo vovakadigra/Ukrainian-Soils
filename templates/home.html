@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Home</title>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo1.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
         /* Add custom CSS styles here */
         body {
@@ -16,11 +19,11 @@
             padding: 0;
             display: flex;
             flex-direction: column;
+            align-items: center;
             position: relative;
             min-height: 100vh;
         }
-        header {
-            background-color: rgba(51, 51, 51, 0.7);
+        header { 
             color: #fff;
             padding: 15px 0;
         }
@@ -56,14 +59,14 @@
             font-size: 16px;
             transition: color 0.3s ease;
         }
-
+        
         header ul li a:hover {
             color: #ff9900;
         }
 
         #hero {
             text-align: center;
-            padding: 80px 0;
+            padding: 70px 0;
         }
 
         #hero img {
@@ -82,33 +85,60 @@
             color: #444;
         }
 
-        /* Style for other sections here */
-
         footer {
-            width: 100%;
-            background-color: rgba(51, 51, 51, 0.7);
-            color: #fff;
-            padding: 10px 0;
-            text-align: center;
             position: fixed;
             bottom: 0;
-            left: 0;
-            right: 0;
+            width: 100%;
+            background-color: rgba(136, 136, 136, 0.217);
+            color: #fff;
+            padding: 0.5% 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
         }
 
-        footer p {
-            margin: 0;
-            padding: 20px 0;
-            text-align: center;
+        .footer-links {
+            display: flex;
+            margin-bottom: 20px;
         }
 
         .footer-links a {
             color: #fff;
             text-decoration: none;
             margin: 0 15px;
+            font-size: 14px;
+            transition: color 0.3s ease;
         }
 
         .footer-links a:hover {
+            color: #ff9900;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .social-icons a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 24px;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #ff9900;
+        }
+
+        .copyright {
+            font-size: 14px;
+        }
+
+        .social-icon:hover {
             color: #ff9900;
         }
 
@@ -119,6 +149,7 @@
             background-color: rgba(255, 255, 255, 0.9);
             width: 400px;
             margin: 0 auto;
+            margin-top: 0%;
             border-radius: 25px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
         }
@@ -156,11 +187,12 @@
             display: none;
             width: 50%;
             margin: 20px auto;
-            max-height: 300px;
+            max-height: 330px;
             overflow-y: auto;
             position: relative;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
+        
 
         .search-results .result {
             background-color: #f5f5f5;
@@ -173,6 +205,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            
         }
 
         .search-results .result p {
@@ -197,6 +230,161 @@
         .search-results .result .close-button:hover {
             background-color: #ff9900;
         }
+
+        .feedback-form {
+            display: none;
+            position: fixed;
+            width: 17%;
+            top: 62%;
+            left: 88%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-form .close-button1 {
+            margin-bottom: 5px;
+            background-color: #fff;
+            color: #444;
+            font-size: 25px;
+            font-weight: bold;
+            margin-left:50% ;
+        }
+        .feedback-form .close-button1:hover {        
+            background-color: #fff;
+        }
+
+        .feedback-form h2 {
+            margin: 0;
+        }
+
+        .feedback-form label {
+            display: block;
+            margin-top: 10px;
+        }
+        .feedback-form input{
+            width: 100%;
+            border: none;
+            font-size: 16px;
+            font-family: Arial;
+            font-weight: bold;
+            
+
+        }
+
+        .feedback-form textarea {
+            margin-top: 10px;
+            border: 1px solid #444;
+            width: 100%;
+        }
+
+        .feedback-form button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .feedback-form button:hover {
+            background-color: #ff9900;
+        }
+        .open-feedback-button {
+            position: fixed;
+            bottom: 150px; /* Adjust the distance from the bottom */
+            right: 40px; /* Adjust the distance from the right */
+            background: #333; /* A bold background color */
+            color: #fff; /* Text color */
+            border: none;
+            border-radius: 50px; /* Creates a circular shape */
+            padding: 10px 20px; /* Adjust padding for the smaller button */
+            cursor: pointer;
+            font-size: 14px; /* Smaller font size */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .open-feedback-button:hover {
+        background: #ff9900; /* Change the background color on hover */
+    }
+    .add-info-button {
+            position: fixed;
+            bottom: 150px; /* Adjust the distance from the bottom */
+            right: 230px; /* Adjust the distance from the right */
+            background: #333; /* A bold background color */
+            color: #fff; /* Text color */
+            border: none;
+            border-radius: 50px; /* Creates a circular shape */
+            padding: 10px 20px; /* Adjust padding for the smaller button */
+            cursor: pointer;
+            font-size: 14px; /* Smaller font size */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+    .add-info-button:hover {
+        background: #ff9900; /* Change the background color on hover */
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 10px; /* Add some padding for spacing */
+        color: #444; /* White text color for contrast */
+        border-radius: 5px; /* Rounded corners */
+        font-size: 22px; /* Increase the font size for better visibility */
+        margin-top: 20px; /* Add top margin for spacing */
+        max-width: 200px; /* Limit the maximum width */
+        margin-left: auto; /* Center horizontally */
+        margin-right: auto; /* Center horizontally */
+    }
+   
+    .no-results .close-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;;
+            margin-left: auto; /* Center horizontally */
+            margin-right: auto; /* Center horizontally */
+           
+        }
+
+        .no-results .close-button:hover {
+        background: #ff9900; /* Change the background color on hover */
+    }
+
+    #search-results {
+        display: none; /* Initially hide the #search-results container */
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .button-container button {
+        flex: 1;
+        margin: 0 5px; /* Add spacing between the buttons */
+    }
+
+    .success-message {
+            color: #28a745; /* Green color */
+            font-weight: bold;
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -206,20 +394,18 @@
                 <img class="logo" src="{{ url_for('static', filename='img/logo2.png') }}" alt="Logo">
             </div>
             <ul>
-                <li><a href="#about">About</a></li>
+                <li><a href="/home">Home</a></li>
                 <li><a href="/map">Soil Map</a></li>
-                <li><a href="{{ url_for('static', filename='soil types.html') }}">Soil Types</a></li>
+                <li><a href="/soil-types">Soil Types</a></li>
                 <li><a href="/research">Research</a></li>
-                <li><a href="#conservation">Conservation</a></li>
-                <li><a href="#blog">Blog</a></li>
-                <li><a href="#resources">Resources</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="/conversation">Conversation</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
         </nav>
     </header>
 
-    <section id="hero">
+    <section id="hero" style="max-height: 70px;">
         <h1>Exploring the Rich Soils of Ukraine</h1>
         <p>Discover the Geological Wonders and Agricultural Potential of Ukrainian Soils.</p>
     </section>
@@ -231,106 +417,199 @@
 
     <div id="search-results" class="search-results"></div>
 
+    <button id="open-feedback-button" class="open-feedback-button">Leave Feedback</button>
+    <button id="add-info-button" class="add-info-button">Add information</button>
     <!-- Add content for other sections here -->
 
+    <div id="feedback-form" class="feedback-form">
+        <h2>Feedback <button id="close-feedback-form" class="close-button1" formnovalidate>&times;</button></h2>
+        <form id="feedback-form-inner" method="POST" action="{{ url_for('views.feedback_form') }}">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" readonly>
+            <label for="feedback-message">Your Feedback:</label>
+            <textarea id="feedback-message" name="message" rows="4" required></textarea>
+            <div class="button-container">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    </div>
     <footer>
         <div class="footer-links">
             <a href="{{ url_for('static', filename='privacy.html') }}">Privacy Policy</a>
             <a href="terms.html">Terms of Use</a>
             <a href="#contact">Contact</a>
         </div>
-        <p>&copy; 2023 TerraUkraine</p>
+        <div class="social-icons">
+            <a href="#" class="fab fa-facebook"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-telegram"></a>
+        </div>
+        <p class="copyright">&copy; 2023 TerraUkraine</p>
     </footer>
     <script>
-        document.getElementById('search-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const searchQuery = document.getElementById('search-query').value;
-            const searchResults = document.getElementById('search-results');
-    
-            // Send an AJAX request to your Flask route
-            fetch('/search', {
-                method: 'POST',
-                body: JSON.stringify({ query: searchQuery }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Network response was not ok');
-                }
-            })
-            .then(data => {
-                if (data.results && data.results.length > 0) {
-                    searchResults.innerHTML = ''; // Clear previous results
-                    data.results.forEach(result => {
-                        const resultDiv = document.createElement('div');
-                        resultDiv.classList.add('result');
-    
-                        const resultText = document.createElement('p');
-                        resultText.textContent = result.answer;
-    
-                        const copyButton = document.createElement('button');
-                        copyButton.classList.add('copy-button');
-                        const copyIcon = document.createElement('img');
-                        copyIcon.src = '/static/img/copy-icon.png'; // Reference the icon from the 'static' directory
-                        copyIcon.style.width = '20px'; // Set the width of the icon
-                        copyIcon.style.height = '20px'; // Set the height of the icon
+    const feedbackForm = document.getElementById('feedback-form');
+    const openFeedbackButton = document.getElementById('open-feedback-button');
+    const closeFeedbackButton = document.getElementById('close-feedback-form');
+    const submitFeedbackButton = document.getElementById('submit-feedback');
+    const feedbackModal = document.getElementById('feedback-modal');
+    const closeFeedbackModal = document.getElementById('close-feedback-modal');
+    const feedbackInfo = document.getElementById('feedback-info');
 
-                        // Position the copy icon in the top right corner
-                        copyButton.style.position = 'absolute';
-                        copyButton.style.top = '10px'; // Adjust the top position as needed
-                        copyButton.style.right = '10px'; // Adjust the right position as needed
-                        copyIcon.style.textDecoration = 'none'; 
-                        copyButton.appendChild(copyIcon);
-                        copyButton.addEventListener('click', function() {
-                            const textToCopy = resultText.textContent;
-                            const textArea = document.createElement('textarea');
-                            textArea.value = textToCopy;
-                            document.body.appendChild(textArea);
-                            textArea.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(textArea);
-                            alert('Text copied to clipboard: ' + textToCopy);
+    openFeedbackButton.addEventListener('click', function () {
+        feedbackForm.style.display = 'block';
+    });
+
+    closeFeedbackButton.addEventListener('click', function () {
+        feedbackForm.style.display = 'none';
+    });
+
+    submitFeedbackButton.addEventListener('click', function () {
+        // Simulate a successful feedback submission
+        const username = document.getElementById('username').value;
+        const message = document.getElementById('feedback-message').value;
+        const feedbackText = `Feedback submitted by ${username}: ${message}`;
+
+        // Display feedback in the modal
+        feedbackInfo.textContent = feedbackText;
+        feedbackModal.style.display = 'block';
+    });
+
+    closeFeedbackModal.addEventListener('click', function () {
+        feedbackModal.style.display = 'none';
+    });
+
+    // Close the modal if the user clicks outside of it
+    window.addEventListener('click', function (event) {
+        if (event.target === feedbackModal) {
+            feedbackModal.style.display = 'none';
+        }
+    });
+</script>
+        <script>
+            function closeNoResults() {
+                const searchResults = document.getElementById('search-results');
+                searchResults.style.display = 'none';
+            }
+        </script>
+        <script>
+            document.getElementById('search-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const searchQuery = document.getElementById('search-query').value;
+                const searchResults = document.getElementById('search-results');
+        
+                // Send an AJAX request to your Flask route
+                fetch('/search', {
+                    method: 'POST',
+                    body: JSON.stringify({ query: searchQuery }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                })
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        searchResults.innerHTML = ''; // Clear previous results
+                        data.results.forEach(result => {
+                            const resultDiv = document.createElement('div');
+                            resultDiv.classList.add('result');
+        
+                            // Create the result text and copy button
+                            const resultText = document.createElement('p');
+                            resultText.textContent = result.answer;
+        
+                            const copyButton = document.createElement('button');
+                            copyButton.classList.add('copy-button');
+                            const copyIcon = document.createElement('img');
+                            copyIcon.src = '/static/img/copy-icon.png'; // Reference the icon from the 'static' directory
+                            copyIcon.style.width = '20px'; // Set the width of the icon
+                            copyIcon.style.height = '20px'; // Set the height of the icon
+        
+                            // Position the copy icon in the top right corner
+                            copyButton.style.position = 'absolute';
+                            copyButton.style.top = '10px'; // Adjust the top position as needed
+                            copyButton.style.right = '10px'; // Adjust the right position as needed
+                            copyIcon.style.textDecoration = 'none';
+                            copyButton.appendChild(copyIcon);
+        
+                            // Add a click event to copy the result text to the clipboard
+                            copyButton.addEventListener('click', function () {
+                                const textToCopy = resultText.textContent;
+                                const textArea = document.createElement('textarea');
+                                textArea.value = textToCopy;
+                                document.body.appendChild(textArea);
+                                textArea.select();
+                                document.execCommand('copy');
+                                document.body.removeChild(textArea);
+                                alert('Text copied to clipboard: ' + textToCopy);
+                            });
+        
+                            // Create the close button for the result
+                            const closeButton = document.createElement('button');
+                            closeButton.classList.add('close-button');
+                            closeButton.textContent = 'Close';
+        
+                            closeButton.addEventListener('click', function () {
+                                resultDiv.remove();
+        
+                                // Check if there are any results left
+                                if (searchResults.querySelectorAll('.result').length === 0) {
+                                    searchResults.style.display = 'none'; // Hide the results container
+                                }
+                            });
+        
+                            // Append the elements to the resultDiv
+                            resultDiv.appendChild(resultText);
+                            resultDiv.appendChild(copyButton);
+                            resultDiv.appendChild(closeButton);
+        
+                            // Append the resultDiv to the searchResults container
+                            searchResults.appendChild(resultDiv);
                         });
-    
-                        const closeButton = document.createElement('button');
-                        closeButton.classList.add('close-button');
-                        closeButton.textContent = 'Close';
-    
-                        closeButton.addEventListener('click', function() {
-                            resultDiv.remove();
-    
-                            // Check if there are any results left
-                            if (searchResults.querySelectorAll('.result').length === 0) {
-                                searchResults.style.display = 'none'; // Hide the results container
-                            }
-                        });
-    
-                        resultDiv.appendChild(resultText);
-                        resultDiv.appendChild(copyButton);
-                        resultDiv.appendChild(closeButton);
-    
-                        searchResults.appendChild(resultDiv);
+        
+                        searchResults.style.display = 'block'; // Show the results container
+                    } else {
+                        searchResults.innerHTML = '<p class="no-results">No results found. <button class="close-button" onclick="closeNoResults()">Close</button></p>';
+                        searchResults.style.display = 'block';
+                    }
+        
+                    const closeButtons = searchResults.querySelectorAll('.close-button');
+                    closeButtons.forEach(button => {
+                        button.style.display = 'block';
                     });
-    
-                    searchResults.style.display = 'block'; // Show the results container
-                } else {
-                    searchResults.innerHTML = '<p class="no-results">No results found.</p>';
-                    searchResults.style.display = 'none'; // Hide the results container
-                }
-    
-                const closeButtons = searchResults.querySelectorAll('.close-button');
-                closeButtons.forEach(button => {
-                    button.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                 });
-            })
-            .catch(error => {
-                console.error('Error:', error);
             });
-        });
-    </script>
+        </script>
+        
+        <script>
+            // Make an AJAX request to the backend to get the username
+            fetch('/get_username')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.username) {
+                        // User is logged in, populate the input field with the username
+                        const usernameInput = document.getElementById('username');
+                        usernameInput.value = data.username;
+                    } else {
+                        // No user is logged in
+                        console.log('Not logged in');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        </script>
+        
+    
 </body>
 </html>

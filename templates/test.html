@@ -279,6 +279,23 @@ tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
+.low {
+    background-color: #add8e6;
+    /* Light Blue */
+    color: #333;
+}
+
+.medium {
+    background-color: #fffacd;
+    /* Light Yellow */
+    color: #333;
+}
+
+.high {
+    background-color: #ffb6c1;
+    /* Light Pink */
+    color: #333;
+}
 .description{
     display: none;
 }
@@ -297,43 +314,40 @@ tr:nth-child(even) {
 }
 main {
             background-color: #fff;
-            padding: 20px;
+            padding: 120px;
             border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
-        main h1 {
+        h1 {
             color: #333;
         }
 
-        main p {
+        p {
             color: #666;
-            margin-bottom: 20px;
-            margin-top: 40px;
-            font-size: 24px;
+            margin-bottom: 40px;
         }
 
-        main ul {
+        ul {
             list-style-type: none;
-            margin-left: 33%;
+            padding: 0;
         }
 
-        main  h1, h2, h4 {
+        li {
+            margin-bottom: 10px;
+        }
+        h1, h2, h3, h4 {
             color: #333;
             /* Add a stylish font */
             font-family: 'Arial', sans-serif;
         }
-        main h3 {
-            color:#333;
-            font-size: 26px;
-            text-align: center;
-            font-family: 'Arial';
-        }
 
-       main li{
+        p, li {
             color: #666;
+        }
+        li{
             text-align: left;
-            margin-bottom: 15px ;
 
         }
 
@@ -351,20 +365,6 @@ main {
 
         #getStarted:hover {
             background: linear-gradient(45deg, #45a049, #4caf50);
-        }
-        .low {
-            background-color: #ff9999; /* Light Red */
-            color: #333;
-        }
-
-        .medium {
-            background-color: #fffacd; /* Light Yellow */
-            color: #333;
-        }
-
-        .high {
-            background-color: #b3ffb3; /* Light Green */
-            color: #333;
         }
     </style>
 </head>
@@ -457,34 +457,40 @@ main {
             <div class="hero-text" style="flex: 1; padding: 20px;">
                 <h1 class="hero-title" style="text-align: center;">Soil Fertility Calculator</h1>
             </div>
-            <div class="separator" style="border-left: 1px solid #ccc; height: 130px;"></div>
+            <div class="separator" style="border-left: 1px solid #ccc; height: 150px;"></div>
             <div class="hero-text" style="flex: 1; padding: 20px;font-size: 21px;">
-                <p class="hero-subtitle" style="font-size: 19px; width:82%; color: #333;">Welcome to the Soil Fertility Calculator your tool for understanding and optimizing the health of your soil. This calculator evaluates various soil parameters to provide insights into the fertility of your soil, helping you make informed decisions for better crop yield and overall agricultural success.</p>
+                <p class="hero-subtitle" style="font-size: 19px; width:82%">Welcome to the Soil Fertility Calculator your tool for understanding and optimizing the health of your soil. This calculator evaluates various soil parameters to provide insights into the fertility of your soil, helping you make informed decisions for better crop yield and overall agricultural success.</p>
             </div>
         </div>
     </section>
 
     <main>
-        <h3>Calculator Parameters:</h3>
+        <h1>Unlock the Potential of Your Soil with the Soil Fertility Calculator</h1>
+        <p>Make informed decisions for a thriving agricultural journey. Here's why you should use the Soil Fertility Calculator:</p>
         
         <ul>
-            <li><i class="fas fa-leaf"></i> <strong>Organic Carbon Assessment:</strong> Gauge organic carbon levels in your soil.</li>
-            <li><i class="fas fa-flask"></i> <strong>pH Level Evaluation:</strong> Understand soil acidity or alkalinity.</li>
-            <li><i class="fas fa-clone"></i> <strong>Texture and Structure Analysis:</strong> Explore soil texture and structure.</li>
-            <li><i class="fas fa-water"></i> <strong>Salinity Check:</strong> Assess salinity levels to identify challenges.</li>
-            <li><i class="fas fa-flask"></i> <strong>Nutrient Analysis:</strong> Examine essential nutrients like potassium and nitrogen.</li>
-            <li><i class="fas fa-layer-group"></i> <strong>Soil Structure Analysis:</strong> Examine the structure of your soil.</li>
-            <li><i class="fas fa-flask"></i> <strong>Potassium Analysis:</strong> Assess the potassium content in your soil.</li>
+            <li><strong>Organic Carbon Assessment:</strong> Gauge organic carbon levels in your soil.</li>
+            <li><strong>pH Level Evaluation:</strong> Understand soil acidity or alkalinity.</li>
+            <li><strong>Texture and Structure Analysis:</strong> Explore soil texture and structure.</li>
+            <li><strong>Salinity Check:</strong> Assess salinity levels to identify challenges.</li>
+            <li><strong>Nutrient Analysis:</strong> Examine essential nutrients like potassium and nitrogen.</li>
         </ul>
 
-        <h3>What the Results Mean:</h3>
+        <p><strong>What the Results Mean:</strong></p>
         <ul>
-            <li><i class="fas fa-arrow-down"></i> <strong>Low:</strong> Indicates that the soil parameter may need improvement.</li>
-            <li><i class="fas fa-arrow-right"></i> <strong>Medium:</strong> Represents a moderate level, suggesting balanced conditions.</li>
-            <li><i class="fas fa-arrow-up"></i> <strong>High:</strong> Signifies favorable conditions for that specific soil parameter.</li>
+            <li><strong>Low:</strong> Indicates that the soil parameter may need improvement.</li>
+            <li><strong>Medium:</strong> Represents a moderate level, suggesting balanced conditions.</li>
+            <li><strong>High:</strong> Signifies favorable conditions for that specific soil parameter.</li>
         </ul>
 
-        <button id="getStarted" onclick="window.location.href='#fertilityCalculator'">Get Started</button>
+        <p><strong>Why Use the Soil Fertility Calculator?</strong></p>
+        <ul>
+            <li><strong>Informed Decision-Making:</strong> Make informed decisions regarding soil management practices and nutrient amendments.</li>
+            <li><strong>Optimize Crop Growth:</strong> Enhance crop yield by addressing specific soil needs.</li>
+            <li><strong>Sustainable Agriculture:</strong> Promote sustainable farming practices by tailoring soil treatments based on accurate assessments.</li>
+        </ul>
+
+        <button id="getStarted" onclick="window.location.href='#calculatorSection'">Get Started</button>
     </main>
     
     <div class ="description" id="description"><h3>Soil Fertility Analysis Results</h3></div>
@@ -493,7 +499,7 @@ main {
         <tr>
             <th>Parameter</th>
             <th>Value</th>
-            <th>Result*</th>
+            <th>Category</th>
         </tr>
     </thead>
     <tbody>
@@ -519,17 +525,6 @@ main {
 </body>
 
 <script>
-    function validateFields(fields) {
-    for (const fieldName in fields) {
-        if (fields.hasOwnProperty(fieldName)) {
-            const { value, min, max } = fields[fieldName];
-            if (isNaN(value) || value < min || value > max) {
-                return fieldName;
-            }
-        }
-    }
-    return null; // No invalid field found
-}
 document.getElementById("calculateButton").addEventListener("click", function () {
     // Get input values from the form
     const organicCarbon = parseFloat(document.getElementById("organicCarbon").value);
@@ -542,21 +537,6 @@ document.getElementById("calculateButton").addEventListener("click", function ()
 
     if (isNaN(organicCarbon) || isNaN(phLevel) || isNaN(texture) || isNaN(soilStructure) || isNaN(salinity) || isNaN(potassium) || isNaN(nitrogen)) {
         alert("Please fill in all fields.");
-        return;
-    }
-
-    const invalidField = validateFields({
-        organicCarbon: { value: organicCarbon, min: 0, max: 10 },
-        phLevel: { value: phLevel, min: 4, max: 8 },
-        texture: { value: texture, min: 2.5, max: 10 },
-        soilStructure: { value: soilStructure, min: 2.5, max: 10 },
-        salinity: { value: salinity, min: 0, max: 10 },
-        potassium: { value: potassium, min: 0, max: 200 },
-        nitrogen: { value: nitrogen, min: 0, max: 10 }
-    });
-
-    if (invalidField) {
-        alert(`Please enter a valid numeric value within the specified range for ${invalidField}.`);
         return;
     }
 
@@ -625,20 +605,6 @@ function fillTable(categories) {
             parameterCell.textContent = parameter;
             valueCell.textContent = data.Value;
             categoryCell.textContent = data.Category;
-
-            // Apply color coding based on the category
-            switch (data.Category.toLowerCase()) {
-                case 'low':
-                    categoryCell.classList.add('low');
-                    break;
-                case 'medium':
-                    categoryCell.classList.add('medium');
-                    break;
-                case 'high':
-                    categoryCell.classList.add('high');
-                    break;
-                // Add more cases if needed
-            }
         }
     }
 }

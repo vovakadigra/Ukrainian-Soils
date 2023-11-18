@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedbacks</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo1.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            background-image: url("{{ url_for('static', filename='img/background.png') }}");
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        header {
+            
+            color: #fff;
+            padding: 15px 0;
+        }
+
+        header nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            margin: 0 50px;
+        }
+
+        header .logo img {
+            height: 60px;
+        }
+
+        header ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        header ul li {
+            margin-right: 20px;
+        }
+
+        header ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        header ul li a:hover {
+            color: #ff9900;
+        }
+
+        #hero {
+            margin-top:3% ;
+            text-align: center;
+            padding: 10px 0;
+
+        }
+        #hero p{
+            font-size:20px ;
+            color: #333;
+        }
+
+        h1 {
+            color: #fff;
+            text-align: center;
+            margin-top: 30px;
+            font-size:29px ;
+        }
+
+        form {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        label {
+            color: #fff;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        select, button {
+            padding: 8px; /* Adjusted padding for better styling */
+            font-size: 14px;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            border: 1px solid #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Smooth transition on hover */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+        .feedback ul {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .feedback li {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            font-size: 14px;
+            text-align: left;
+            list-style: none;
+            position: relative;
+            margin: 10px; /* Add margin for spacing */
+        }
+
+        .feedback li:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        strong {
+            color: #555;
+        }
+
+        .message-container {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 5px;
+            max-width: 370px;
+            overflow: hidden;
+        }
+
+        .message {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+
+        .date{
+            font-size: 14px;
+            font-weight: bold;
+            color: #ff9900;
+        }
+
+
+        .status-circle {
+            display: inline-block;
+            width: 0.7em;
+            height: 0.7em;
+            border-radius: 50%;
+            margin-right: 0.2em; /* Adjust the margin as needed */
+        }
+
+        .status-new {
+            background-color: blue;
+        }
+
+        .status-pending {
+            background-color: yellow;
+        }
+
+        .status-closed {
+            background-color: red;
+        }
+
+        .status-resolved {
+            background-color: green;
+        }
+
+        .delete-button {
+            position: absolute;
+            font-size: 11px;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(136, 136, 136, 0.217);
+            color: #fff;
+            padding: 0.5% 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .footer-links {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ff9900;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .social-icons a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 24px;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #ff9900;
+        }
+
+        .copyright {
+            font-size: 14px;
+        }
+
+        .social-icon:hover {
+            color: #ff9900;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header content goes here -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/home"><img class="logo" src="{{ url_for('static', filename='img/logo2.png') }}"
+                        alt="Logo"></a>
+            </div>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/map">Soil Map</a></li>
+                <li><a href="/soil-types">Soil Types</a></li>
+                <li><a href="/research">Research</a></li>
+                <li><a href="/conversation">Conversation</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <h1>Exploring the Rich Soils of Ukraine</h1>
+        <p>We are here to listen and improve. Share your feedback with us!</p>
+    </section>
+    
+
+    <form method="get" action="{{ url_for('views.feedbacks') }}">
+        <label for="status" style ="color:#333"; position:fixed>Status:</label>
+        <select name="status" id="status" defaultValue="all">
+            <option value="all">All</option>
+            <option value="new">New</option>
+            <option value="pending">Pending</option>
+            <option value="closed">Closed</option>
+            <option value="resolved">Resolved</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <div class="feedback">
+        <ul>
+            {% for feedback in feedbacks %}
+                <li>
+                    
+                    <strong>ID:</strong> #{{ feedback['id'] }}<br>
+                    <strong>Status:</strong>
+                    <span class="status-circle status-{{ feedback['comment_status'].lower() }}"></span>
+                    {{ feedback['comment_status'] }}<br>
+                    <div class="message-container">
+                        <div class="message">{{ feedback['user_comment'] }}</div>
+                    </div><br>
+                    <strong>Date:</strong> 
+                    <span class="date">{{ feedback['comment_date'].split(' ')[0] }} {{ feedback['comment_date'].split(' ')[1][:5] }}</span>
+                    <span class="delete-button" onclick="deleteFeedback('{{ feedback.id }}')">&#128190;</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Footer content goes here -->
+    <footer>
+        <div class="footer-links">
+            <a href="{{ url_for('static', filename='privacy.html') }}">Privacy Policy</a>
+            <a href="terms.html">Terms of Use</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <div class="social-icons">
+            <a href="#" class="fab fa-facebook"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-instagram"></a>
+            <a href="#" class="fab fa-telegram"></a>
+        </div>
+        <p class="copyright">&copy; 2023 TerraUkraine</p>
+    </footer>
+</body>
+<script>
+function loadData() {
+    const statusFilter = document.getElementById('status').value;
+
+    // Fetch data based on the filter using AJAX
+    fetch(`/feedbacks?status=${statusFilter}`, {
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'  // Add this header to identify AJAX request
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Update the feedback content
+            const feedbackContainer = document.querySelector('.feedback ul');
+            feedbackContainer.innerHTML = ''; // Clear existing content
+
+            // Loop through the data and append feedback items
+            data.forEach(feedback => {
+                const feedbackItem = document.createElement('li');
+                feedbackItem.innerHTML = `
+                    <strong>ID:</strong> #${feedback.id}<br>
+                    <strong>Status:</strong>
+                    <span class="status-circle status-${feedback.comment_status.toLowerCase()}"></span>
+                    ${feedback.comment_status}<br>
+                    <div class="message-container">
+                        <div class="message">${feedback.user_comment}</div>
+                    </div><br>
+                    <strong>Date:</strong> 
+                    <span class="date">${feedback.comment_date.split(' ')[0]} ${feedback.comment_date.split(' ')[1].slice(0, 5)}</span>
+                    <span class="delete-button" onclick="deleteFeedback('${feedback.id}')">&#128190;</span>
+                `;
+
+                feedbackContainer.appendChild(feedbackItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+}
+
+// Add an event listener to trigger data loading when the page loads
+document.addEventListener('DOMContentLoaded', function () {
+    loadData();
+});
+</script>
+
+</html>
