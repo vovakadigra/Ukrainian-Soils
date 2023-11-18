@@ -12,4 +12,4 @@ app.static_url_path = '/static'
 app.register_blueprint(views)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,use_reloader=False)
